@@ -5,11 +5,12 @@ import org.anagramly.controller.ts.AnagramTs;
 import org.anagramly.model.AnagramResult;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Set;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface AnagramMapper {
 
 

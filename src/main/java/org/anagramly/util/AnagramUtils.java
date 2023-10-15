@@ -3,12 +3,10 @@ package org.anagramly.util;
 import org.anagramly.model.AnagramResult;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class AnagramUtils {
@@ -18,7 +16,7 @@ public class AnagramUtils {
     private static final Pattern REMOVE_SPACES_REGEX = Pattern.compile("[^a-zA-Z]");
 
     private AnagramUtils() {
-        //not instantiable
+        //not instantiable util class
     }
 
     public static boolean isAnagram(String firstParam, String secondParam) {
