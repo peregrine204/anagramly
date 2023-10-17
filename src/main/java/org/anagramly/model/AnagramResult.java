@@ -7,7 +7,6 @@ import jakarta.persistence.Id;
 
 @Entity
 public class AnagramResult {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

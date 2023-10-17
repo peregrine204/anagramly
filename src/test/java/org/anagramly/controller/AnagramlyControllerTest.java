@@ -76,8 +76,4 @@ class AnagramlyControllerTest {
         anagramResult.setSecondSubmittedAnswer(secondParam);
         return anagramResult;
     }
-
-    @Test
-    void getMatchingAnagramResults() {
-    }
 }

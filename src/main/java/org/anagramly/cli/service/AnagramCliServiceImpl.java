@@ -18,7 +18,7 @@ public class AnagramCliServiceImpl implements AnagramCliService {
     private Scanner scanner;
     private final AnagramlyControllerApi anagramlyControllerApi;
     private final ApplicationContext applicationContext;
-    private static final List<String> ALLOWED_INPUTS = List.of("1", "2", "0");
+    private static final List<String> ALLOWED_NUMERIC_INPUTS = List.of("1", "2", "0");
 
     public AnagramCliServiceImpl(AnagramlyControllerApi anagramlyControllerApi, ApplicationContext applicationContext) {
         this.anagramlyControllerApi = anagramlyControllerApi;
@@ -28,18 +28,18 @@ public class AnagramCliServiceImpl implements AnagramCliService {
     @Override
     public void processUserInput(Scanner scanner) {
         while (scanner.hasNext()) {
-            String param = scanner.nextLine();
-            if (IsInvalidOptionEntered(param)) {
-                System.out.printf((INCORRECT_OPTION_ENTERED) + "%n", param);
+            String userInput = scanner.nextLine();
+            if (IsInvalidOptionEntered(userInput)) {
+                System.out.printf((INCORRECT_OPTION_ENTERED) + "%n", userInput);
                 processUserInput(scanner);
-            } else if (param.equalsIgnoreCase("1")) {
+            } else if (userInput.equalsIgnoreCase("1")) {
                 System.out.println(CLI_SEPARATOR);
                 playFindAnagram(scanner);
                 displayOptions(scanner);
-            } else if (param.equalsIgnoreCase("2")) {
+            } else if (userInput.equalsIgnoreCase("2")) {
                 displayHistoricAnagrams(scanner);
                 displayOptions(scanner);
-            } else if (param.equalsIgnoreCase("0")) {
+            } else if (userInput.equalsIgnoreCase("0")) {
                 System.out.println(EXIT_MESSAGE);
                 scanner.close();
                 int exitCode = SpringApplication.exit(applicationContext, () -> 0);
@@ -52,14 +52,14 @@ public class AnagramCliServiceImpl implements AnagramCliService {
     @Override
     public void playFindAnagram(Scanner scanner) {
         System.out.println(ENTER_FIRST_WORD);
-        String firstInput = getInput(scanner);
+        String firstAnswer = getUserInput(scanner);
         System.out.println(ENTER_SECOND_WORD);
-        String secondInput = getInput(scanner);
-        System.out.printf((PROCESSING_ANAGRAM_MESSAGE) + "%n", firstInput, secondInput);
+        String secondAnswer = getUserInput(scanner);
+        System.out.printf((PROCESSING_ANAGRAM_MESSAGE) + "%n", firstAnswer, secondAnswer);
 
         System.out.println(CLI_SEPARATOR);
 
-        AnagramTs result = anagramlyControllerApi.getAnagramResult(firstInput, secondInput);
+        AnagramTs result = anagramlyControllerApi.getAnagramResult(firstAnswer, secondAnswer);
 
         processResult(result);
     }
@@ -73,11 +73,11 @@ public class AnagramCliServiceImpl implements AnagramCliService {
     @Override
     public void displayHistoricAnagrams(Scanner scanner) {
         System.out.println(FIND_OLD_ANAGRAMS_MESSAGE);
-        String input = getInput(scanner);
+        String userInput = getUserInput(scanner);
 
-        List<AnagramResultTs> anagramResultTsList = anagramlyControllerApi.getMatchingAnagramResults(input);
+        List<AnagramResultTs> anagramResultTsList = anagramlyControllerApi.getMatchingAnagramResults(userInput);
 
-        processHistoricResults(anagramResultTsList, input);
+        processHistoricResults(anagramResultTsList, userInput);
     }
 
     private void processResult(AnagramTs result) {
@@ -111,16 +111,16 @@ public class AnagramCliServiceImpl implements AnagramCliService {
         if (option.chars().noneMatch(Character::isDigit) || option.chars().toArray().length > 1) {
             return true;
         }
-        return !ALLOWED_INPUTS.contains(option);
+        return !ALLOWED_NUMERIC_INPUTS.contains(option);
     }
 
-    private String getInput(Scanner scanner) {
+    private String getUserInput(Scanner scanner) {
         while (scanner.hasNext()) {
-            String input = scanner.nextLine();
-            if (isNotValid(input)) {
-                System.out.printf((INVALID_ANAGRAM_INPUT) + "%n", input);
+            String userInput = scanner.nextLine();
+            if (isNotValid(userInput)) {
+                System.out.printf((INVALID_ANAGRAM_INPUT) + "%n", userInput);
             } else {
-                return input;
+                return userInput;
             }
         }
         return null;

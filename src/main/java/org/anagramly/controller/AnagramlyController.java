@@ -23,13 +23,13 @@ public class AnagramlyController implements AnagramlyControllerApi {
     }
 
     @Override
-    public AnagramTs getAnagramResult(String firstParam, String secondParam) {
-        boolean isAnagram = AnagramUtils.isAnagram(firstParam, secondParam);
+    public AnagramTs getAnagramResult(String firstAnswer, String secondAnswer) {
+        boolean isAnagram = AnagramUtils.isAnagram(firstAnswer, secondAnswer);
         if (isAnagram) {
-            AnagramResult anagramResult = anagramlyService.saveAnagram(anagramMapper.toAnagramResult(firstParam, secondParam));
+            AnagramResult anagramResult = anagramlyService.saveAnagram(anagramMapper.toAnagramResult(firstAnswer, secondAnswer));
             return anagramMapper.toAnagramTs(anagramResult.getFirstSubmittedAnswer(), anagramResult.getSecondSubmittedAnswer(), true);
         }
-        return anagramMapper.toAnagramTs(firstParam, secondParam, false);
+        return anagramMapper.toAnagramTs(firstAnswer, secondAnswer, false);
     }
 
     @Override

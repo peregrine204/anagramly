@@ -13,7 +13,6 @@ import java.util.Set;
 @Mapper(componentModel = "spring")
 public interface AnagramMapper {
 
-
     AnagramTs toAnagramTs(String firstAnagramCandidate, String secondAnagramCandidate, boolean matched);
 
     @Mapping(target = "firstSubmittedAnswer", source = "firstAnagramCandidate")

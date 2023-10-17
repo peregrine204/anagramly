@@ -19,29 +19,29 @@ public class AnagramUtils {
         //not instantiable util class
     }
 
-    public static boolean isAnagram(String firstParam, String secondParam) {
-        if (firstParam == null || secondParam == null) {
+    public static boolean isAnagram(String firstAnswer, String secondAnswer) {
+        if (firstAnswer == null || secondAnswer == null) {
             return false;
         }
 
-        firstParam = processInput(firstParam);
-        secondParam = processInput(secondParam);
+        firstAnswer = sanitizeUserInput(firstAnswer);
+        secondAnswer = sanitizeUserInput(secondAnswer);
 
-        if (firstParam.length() != secondParam.length()) {
+        if (firstAnswer.length() != secondAnswer.length()) {
             return false;
         }
 
-        return Stream.of(firstParam, secondParam)
-                .map(AnagramUtils::convertStrings)
+        return Stream.of(firstAnswer, secondAnswer)
+                .map(AnagramUtils::toSortedString)
                 .distinct()
                 .count() == 1;
     }
 
-    private static String convertStrings(String input) {
+    private static String toSortedString(String input) {
         return Arrays.toString(input.chars().sorted().toArray());
     }
 
-    private static String processInput(String firstParam) {
+    private static String sanitizeUserInput(String firstParam) {
         return firstParam.replaceAll(REMOVE_SPACES_REGEX.pattern(), EMPTY).toLowerCase();
     }
 
@@ -57,7 +57,7 @@ public class AnagramUtils {
         return List.of(anagramResult.getFirstSubmittedAnswer(), anagramResult.getSecondSubmittedAnswer());
     }
 
-    private static boolean filterResults(AnagramResult anagramResult, String searchString){
+    private static boolean filterResults(AnagramResult anagramResult, String searchString) {
         return isAnagram(anagramResult.getFirstSubmittedAnswer(), searchString) && isAnagram(anagramResult.getSecondSubmittedAnswer(), searchString);
     }
 
